@@ -2,6 +2,7 @@ package com.sample;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Game {
@@ -23,9 +24,9 @@ public class Game {
     private String[][] field = new String[10][10];
     private Boolean[][] xGraph = new Boolean[100][100];
     private Boolean[][] oGraph = new Boolean[100][100];
-    private Function<GameInfo, Void> gameEndedCallback;
+    private Consumer<GameInfo> gameEndedCallback;
 
-    private class GameInfo {
+    public class GameInfo {
         public String winner;
         public LocalDateTime startTime;
         public LocalDateTime endTime;
@@ -39,7 +40,7 @@ public class Game {
         }
     }
 
-    public Game(Function<GameInfo, Void> gameEndedCallback) {
+    public Game(Consumer<GameInfo> gameEndedCallback) {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 field[i][j] = EMPTY;
@@ -221,7 +222,7 @@ public class Game {
     private void endGame(String winner) {
         this.endTime = LocalDateTime.now();
         this.gameEnded = true;
-        this.gameEndedCallback.apply(new GameInfo(winner,
+        this.gameEndedCallback.accept(new GameInfo(winner,
                 this.startTime, this.endTime, this.turnCount));
     }
 

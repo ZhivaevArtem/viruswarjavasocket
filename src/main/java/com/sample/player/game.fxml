@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sample.player.PlayerController">
+   <children>
+      <Label alignment="CENTER" prefHeight="54.0" prefWidth="628.0" text="StatusText" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <GridPane fx:id="gameFieldGrid" gridLinesVisible="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <HBox alignment="CENTER" prefHeight="66.0" prefWidth="1280.0">
+         <children>
+            <Button mnemonicParsing="false" text="End turn">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" text="Pass">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

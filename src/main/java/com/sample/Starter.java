@@ -1,9 +1,8 @@
 package com.sample;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
+
+import com.sample.player.Client;
+import com.sample.player.Host;
 
 class Starter {
 
@@ -22,21 +21,13 @@ class Starter {
     }
 
     private static void runHost(int port) {
-        try {
-            ServerSocket hostSocket = new ServerSocket(port, 0, InetAddress.getLocalHost());
-            System.out.println("Waiting...");
-            Socket clientSocket = hostSocket.accept();
-            System.out.println("Connected...");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Host host = new Host(port);
+//        host.waitClient();
     }
 
     private static void runClient(String host, int port) {
-        try {
-            Socket socket = new Socket(host, port);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Client client = new Client(host, port);
+        Client.launch();
+//        client.connectHost();
     }
 }
