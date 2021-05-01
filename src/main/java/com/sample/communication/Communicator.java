@@ -61,8 +61,9 @@ public class Communicator {
         this.actions.put(messageType, action);
     }
 
-    public void emit(Message message) {
+    public void emit(String messageType, Message message) {
         try {
+            message.messageType = messageType;
             os.writeObject(message);
         } catch (IOException e) {
             e.printStackTrace();
