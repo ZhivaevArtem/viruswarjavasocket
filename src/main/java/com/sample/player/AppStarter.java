@@ -32,6 +32,7 @@ public class AppStarter extends Application {
             this.hostSocket = new ServerSocket(port);
             this.enemySocket = this.hostSocket.accept();
             this.game = new Game(gameInfo -> {});
+            this.controller.isHost = true;
             this.controller.setCommunicator(new Communicator(this.enemySocket));
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,6 +44,7 @@ public class AppStarter extends Application {
         this.host = host;
         try {
             this.enemySocket = new Socket(host, port);
+            this.controller.isHost = false;
             this.controller.setCommunicator(new Communicator(this.enemySocket));
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,13 +78,13 @@ public class AppStarter extends Application {
 
         switch (args.get(0)) {
             case "host":
-//                runAsHost(Integer.parseInt(args.get(1)));
+                runAsHost(Integer.parseInt(args.get(1)));
                 break;
             case "connect":
                 String[] split = args.get(1).split(":");
                 int port = Integer.parseInt(split[1]);
                 String host = split[0];
-//                runAsClient(host, port);
+                runAsClient(host, port);
                 break;
         }
     }
