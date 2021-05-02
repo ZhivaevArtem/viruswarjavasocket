@@ -31,12 +31,19 @@ public class Game {
         public LocalDateTime startTime;
         public LocalDateTime endTime;
         public int turnCount;
+        public String[][] field;
 
-        public GameInfo(String winner, LocalDateTime startTime, LocalDateTime endTime, int turnCount) {
+        public GameInfo(String winner, LocalDateTime startTime, LocalDateTime endTime, int turnCount, String[][] field) {
             this.winner = winner;
             this.startTime = startTime;
             this.endTime = endTime;
             this.turnCount = turnCount;
+            this.field = new String[10][10];
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    this.field[i][j] = field[i][j];
+                }
+            }
         }
     }
 
@@ -227,7 +234,8 @@ public class Game {
         this.endTime = LocalDateTime.now();
         this.gameEnded = true;
         this.gameEndedCallback.accept(new GameInfo(winner,
-                this.startTime, this.endTime, this.turnCount));
+                this.startTime, this.endTime, this.turnCount,
+                this.getField()));
     }
 
     private Integer[][] aroundIndexes(int row, int col) {

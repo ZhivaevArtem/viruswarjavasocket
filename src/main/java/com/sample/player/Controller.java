@@ -75,7 +75,7 @@ public class Controller {
                         break;
                     case Game.O_KILLED:
                         ctx.setFill(Color.RED);
-                        ctx.fill();
+                        ctx.fillRect(0, 0, w, h);
                         ctx.strokeOval(0, 0, w, h);
                     default:
                         break;

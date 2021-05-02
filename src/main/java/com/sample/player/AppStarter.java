@@ -64,9 +64,11 @@ public class AppStarter extends Application {
 
         switch (args.get(0)) {
             case "host":
+                primaryStage.setTitle("X");
                 runAsHost(controller, Integer.parseInt(args.get(1)));
                 break;
             case "connect":
+                primaryStage.setTitle("O");
                 String[] split = args.get(1).split(":");
                 int port = Integer.parseInt(split[1]);
                 String host = split[0];

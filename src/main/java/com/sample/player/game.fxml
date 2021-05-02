@@ -44,11 +44,6 @@
       </GridPane>
       <HBox alignment="CENTER" prefHeight="66.0" prefWidth="1280.0">
          <children>
-            <Button fx:id="endTurnButton" mnemonicParsing="false" text="End turn">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
             <Button fx:id="passButton" mnemonicParsing="false" text="Pass">
                <font>
                   <Font size="16.0" />

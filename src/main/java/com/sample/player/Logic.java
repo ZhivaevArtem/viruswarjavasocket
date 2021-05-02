@@ -17,6 +17,7 @@ public class Logic {
     }
 
     private boolean isHost;
+    private boolean isGameEnded;
     private boolean isMyTurn;
     private Communicator communicator;
     private Controller controller;
@@ -46,11 +47,29 @@ public class Logic {
 
         this.communicator.on("game_start", this::onGameStart);
         this.communicator.on("redraw", this::onRedraw);
+        this.communicator.on("game_over", this::onGameOver);
         if (this.isHost) {
             this.communicator.on("turn", this::onTurn);
             this.communicator.on("pass", this::onPass);
         }
         this.communicator.startListen();
+    }
+
+    private void onGameOver(Message data) {
+        this.isGameEnded = true;
+        this.communicator.stopListen();
+        String winner = data.winner.toLowerCase();
+
+        this.controller.getPassButton().setOnMouseClicked(event -> {});
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                this.controller.getCanvasCell(i, j).setOnMouseClicked(event -> {});
+            }
+        }
+
+        String status = winner.equals(this.whoAmI().toLowerCase()) ? "You win!" : "You lose :(";
+        String[][] field = data.field;
+        this.fieldRedraw(field, status);
     }
 
     /**
@@ -67,8 +86,14 @@ public class Logic {
      * @param data not used
      */
     private void onGameStart(Message data) {
+        this.isGameEnded = false;
         if (isHost) {
-            this.game = new Game();
+            this.game = new Game(gameInfo -> {
+                Message m = new Message("game_over");
+                m.winner = gameInfo.winner;
+                m.field = gameInfo.field;
+                communicator.emitAll("game_over", m);
+            });
             this.isMyTurn = true;
         } else {
             this.game = null;
@@ -153,6 +178,7 @@ public class Logic {
     }
 
     private void onRedraw(Message data) {
+        if (this.isGameEnded) return;
         String currentPlayer = data.currentPlayer;
         String[][] field = data.field;
 
