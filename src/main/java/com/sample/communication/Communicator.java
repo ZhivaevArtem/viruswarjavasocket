@@ -16,8 +16,10 @@ public class Communicator {
     private ObjectInputStream is;
     private Map<String, Consumer<Message>> actions = new HashMap<>();
     private Listener listener;
+    private String whoAmI;
 
-    public Communicator(Socket socket) {
+    public Communicator(Socket socket, String whoAmI) {
+        this.whoAmI = whoAmI;
         try {
             this.os = new ObjectOutputStream(socket.getOutputStream());
             this.is = new ObjectInputStream(socket.getInputStream());
@@ -43,7 +45,6 @@ public class Communicator {
                     Object obj = is.readObject();
                     if (obj instanceof Message) {
                         Message message = (Message)obj;
-                        // TODO: contains key returns false =(
                         boolean b = actions.containsKey(message.messageType);
                         for (String k : actions.keySet()) {
                             if (k.equals(message.messageType)) {
@@ -78,9 +79,19 @@ public class Communicator {
     public void emit(String messageType, Message message) {
         try {
             message.messageType = messageType;
+            message.playerSender = this.whoAmI;
             os.writeObject(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void emitAll(String messageType, Message message) {
+        message.playerSender = this.whoAmI;
+        message.messageType = messageType;
+        if (actions.containsKey(messageType)) {
+            actions.get(messageType).accept(message);
+        }
+        emit(messageType, message);
     }
 }

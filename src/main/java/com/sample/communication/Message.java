@@ -6,9 +6,9 @@ public class Message implements Serializable {
     public int i = -1;
     public int j = -1;
     public String messageType = null;
-    public Integer[][] field = null;
+    public String[][] field = null;
     public String winner = null;
-    public String player = null;
+    public String playerSender = null;
     public String currentPlayer = null;
 
     public Message(String messageType) {
@@ -19,11 +19,5 @@ public class Message implements Serializable {
         this.messageType = messageType;
         this.i = i;
         this.j = j;
-    }
-
-    public Message(String messageType, Integer[][] field, String winner) {
-        this.messageType = messageType;
-        this.field = field;
-        this.winner = winner;
     }
 }

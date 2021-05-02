@@ -1,6 +1,5 @@
 package com.sample.player;
 
-import com.sample.Game;
 import com.sample.communication.Communicator;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -13,39 +12,26 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.List;
 
 public class AppStarter extends Application {
 
-    private int port;
-    private String host;
-    private ServerSocket hostSocket;
-    private Socket enemySocket;
-    private Game game;
-    private Controller controller;
-
-    private void runAsHost(int port) {
-        this.port = port;
+    private void runAsHost(Controller controller, int port) {
         try {
-            this.host = InetAddress.getLocalHost().getHostAddress();
-            this.hostSocket = new ServerSocket(port);
-            this.enemySocket = this.hostSocket.accept();
-            this.game = new Game(gameInfo -> {});
-            this.controller.isHost = true;
-            this.controller.setCommunicator(new Communicator(this.enemySocket));
+            String host = InetAddress.getLocalHost().getHostAddress();
+            ServerSocket hostSocket = new ServerSocket(port);
+            Socket enemySocket = hostSocket.accept();
+            Logic.getInstance().init(true, enemySocket, controller);
+            Logic.getInstance().startGame();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void runAsClient(String host, int port) {
-        this.port = port;
-        this.host = host;
+    private void runAsClient(Controller controller, String host, int port) {
         try {
-            this.enemySocket = new Socket(host, port);
-            this.controller.isHost = false;
-            this.controller.setCommunicator(new Communicator(this.enemySocket));
+            Socket enemySocket = new Socket(host, port);
+            Logic.getInstance().init(false, enemySocket, controller);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,7 +49,7 @@ public class AppStarter extends Application {
 
         Scene scene = new Scene(root, 1280, 720);
 
-        this.controller = (Controller) loader.getController();
+        Controller controller = (Controller) loader.getController();
 
         primaryStage.setResizable(false);
         primaryStage.setTitle("SAMPLE TEXT");
@@ -78,13 +64,13 @@ public class AppStarter extends Application {
 
         switch (args.get(0)) {
             case "host":
-                runAsHost(Integer.parseInt(args.get(1)));
+                runAsHost(controller, Integer.parseInt(args.get(1)));
                 break;
             case "connect":
                 String[] split = args.get(1).split(":");
                 int port = Integer.parseInt(split[1]);
                 String host = split[0];
-                runAsClient(host, port);
+                runAsClient(controller, host, port);
                 break;
         }
     }

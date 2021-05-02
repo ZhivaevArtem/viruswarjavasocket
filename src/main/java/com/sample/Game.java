@@ -246,7 +246,12 @@ public class Game {
                 res.add(inx[i]);
             }
         }
-        return (Integer[][]) res.toArray();
+        Integer[][] ret = new Integer[res.size()][2];
+        for (int i = 0; i < res.size(); i++) {
+            ret[i][0] = res.get(i)[0];
+            ret[i][1] = res.get(i)[1];
+        }
+        return ret;
     }
 
     private Boolean[][] buildGraph(String player, Boolean[][] graph) {
