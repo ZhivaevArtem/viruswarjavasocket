@@ -303,18 +303,18 @@ public class Game {
             closed.add(curr);
             List<Integer> neighbours = new ArrayList<>();
             for (int i = 0; i < 100; i++) {
-                if (graph[curr][i] && closed.indexOf(i) == -1) {
+                if (graph[curr][i] && !closed.contains(i)) {
                     neighbours.add(i);
                 }
             }
             for (Integer elem : neighbours) {
                 Integer tmpG = g.get(curr) + 1;
-                if (open.indexOf(elem) == -1 || tmpG < g.get(elem)) {
+                if (!open.contains(elem) || tmpG < g.get(elem)) {
                     from.put(elem, curr);
-                    g.put(curr, tmpG);
+                    g.put(elem, tmpG);
                     f.put(elem, g.get(elem) + h(elem, end));
                 }
-                if (open.indexOf(elem) == -1) {
+                if (!open.contains(elem)) {
                     open.add(elem);
                 }
             }

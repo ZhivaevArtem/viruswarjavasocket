@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class Controller {
 
@@ -41,6 +42,7 @@ public class Controller {
             String[] row = gameField[i];
             for (int j = 0; j < row.length; j++) {
                 GraphicsContext ctx = canvasField[i][j].getGraphicsContext2D();
+                ctx.setLineWidth(2);
                 double w = canvasField[i][j].getWidth();
                 double h = canvasField[i][j].getHeight();
                 ctx.clearRect(0, 0, w, h);
@@ -60,6 +62,21 @@ public class Controller {
                     case Game.O:
                         ctx.strokeOval(0, 0, w, h);
                         break;
+                    case Game.X_KILLED:
+                        ctx.setFill(Color.RED);
+                        ctx.fillRect(0, 0, w, h);
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(w, h);
+                        ctx.moveTo(w, 0);
+                        ctx.lineTo(0, h);
+                        ctx.stroke();
+                        ctx.closePath();
+                        break;
+                    case Game.O_KILLED:
+                        ctx.setFill(Color.RED);
+                        ctx.fill();
+                        ctx.strokeOval(0, 0, w, h);
                     default:
                         break;
                 }
