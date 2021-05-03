@@ -6,13 +6,12 @@ import com.sample.communication.Message;
 import javafx.application.Platform;
 
 import java.net.Socket;
-import java.util.Locale;
 import java.util.Objects;
 
-public class Logic {
+public class GameHandler {
 
-    private static Logic instance = new Logic();
-    public static Logic getInstance() {
+    private static GameHandler instance = new GameHandler();
+    public static GameHandler getInstance() {
         return instance;
     }
 

@@ -1,6 +1,5 @@
 package com.sample.player;
 
-import com.sample.communication.Communicator;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -21,8 +20,8 @@ public class AppStarter extends Application {
             String host = InetAddress.getLocalHost().getHostAddress();
             ServerSocket hostSocket = new ServerSocket(port);
             Socket enemySocket = hostSocket.accept();
-            Logic.getInstance().init(true, enemySocket, controller);
-            Logic.getInstance().startGame();
+            GameHandler.getInstance().init(true, enemySocket, controller);
+            GameHandler.getInstance().startGame();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,7 +30,7 @@ public class AppStarter extends Application {
     private void runAsClient(Controller controller, String host, int port) {
         try {
             Socket enemySocket = new Socket(host, port);
-            Logic.getInstance().init(false, enemySocket, controller);
+            GameHandler.getInstance().init(false, enemySocket, controller);
         } catch (IOException e) {
             e.printStackTrace();
         }
