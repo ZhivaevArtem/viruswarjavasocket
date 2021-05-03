@@ -67,7 +67,12 @@ public class Logic {
             }
         }
 
-        String status = winner.equals(this.whoAmI().toLowerCase()) ? "You win!" : "You lose :(";
+        String status;
+        if (winner.equals(Game.EMPTY)) {
+            status = "Draw";
+        } else {
+            status = this.whoAmI().toLowerCase().equals(winner) ? "You win!" : "You lose :(";
+        }
         String[][] field = data.field;
         this.fieldRedraw(field, status);
     }

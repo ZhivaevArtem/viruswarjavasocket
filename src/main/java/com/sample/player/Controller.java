@@ -37,6 +37,32 @@ public class Controller {
         return canvasField[i][j];
     }
 
+    private void drawCell(String v, GraphicsContext ctx) {
+        double width = ctx.getCanvas().getWidth();
+        double height = ctx.getCanvas().getHeight();
+        double d = .1;
+        double w0 = width * d;
+        double h0 = height * d;
+        double w = width - w0;
+        double h = height - h0;
+
+        if (Game.O_KILLED.equals(v) || Game.X_KILLED.equals(v)) {
+            ctx.setFill(Color.RED);
+            ctx.fillRect(1, 1, width - 1, height - 1);
+        }
+        if (Game.O.equals(v) || Game.O_KILLED.equals(v)) {
+            ctx.strokeOval(w0, h0, w - w0, h - h0);
+        } else if (Game.X.equals(v) || Game.X_KILLED.equals(v)) {
+            ctx.beginPath();
+            ctx.moveTo(w0, h0);
+            ctx.lineTo(w, h);
+            ctx.moveTo(w, h0);
+            ctx.lineTo(w0, h);
+            ctx.stroke();
+            ctx.closePath();
+        }
+    }
+
     public void draw(String[][] gameField) {
         for (int i = 0; i < gameField.length; i++) {
             String[] row = gameField[i];
@@ -49,37 +75,7 @@ public class Controller {
                 if (gameField[i][j] == null) {
                     gameField[i][j] = Game.EMPTY;
                 }
-                switch (gameField[i][j]) {
-                    case Game.X:
-                        ctx.beginPath();
-                        ctx.moveTo(0, 0);
-                        ctx.lineTo(w, h);
-                        ctx.moveTo(w, 0);
-                        ctx.lineTo(0, h);
-                        ctx.stroke();
-                        ctx.closePath();
-                        break;
-                    case Game.O:
-                        ctx.strokeOval(0, 0, w, h);
-                        break;
-                    case Game.X_KILLED:
-                        ctx.setFill(Color.RED);
-                        ctx.fillRect(0, 0, w, h);
-                        ctx.beginPath();
-                        ctx.moveTo(0, 0);
-                        ctx.lineTo(w, h);
-                        ctx.moveTo(w, 0);
-                        ctx.lineTo(0, h);
-                        ctx.stroke();
-                        ctx.closePath();
-                        break;
-                    case Game.O_KILLED:
-                        ctx.setFill(Color.RED);
-                        ctx.fillRect(0, 0, w, h);
-                        ctx.strokeOval(0, 0, w, h);
-                    default:
-                        break;
-                }
+                drawCell(gameField[i][j], ctx);
             }
         }
     }
